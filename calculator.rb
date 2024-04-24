@@ -4,6 +4,7 @@ class Calculator
     return 0 if numbers.empty?
 
     numbers_arr = parse_numbers(numbers)
+    validate_negatives(numbers_arr)
     numbers_arr.sum
   end
 
@@ -20,6 +21,16 @@ class Calculator
 
     def valid?(string)
       !string[/^[-+]?\d*\.?\d+$/].nil?
+    end
+
+    def negative_numbers(numbers)
+      numbers.select(&:negative?).join(',')
+    end
+
+    def validate_negatives(numbers_arr)
+      numbers_arr.each do |num|
+        raise "Negative numbers not allowed: #{negative_numbers(numbers_arr)}" if num.negative?
+      end
     end
   end
 end

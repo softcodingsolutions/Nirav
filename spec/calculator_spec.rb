@@ -28,5 +28,15 @@ describe Calculator do
         expect(described_class.add('1,2,3')).to eq 6
       end
     end
+
+    context 'when string has negative numbers' do
+      it 'raises exception with message' do
+        expect { described_class.add('-1,2,-3') }.to raise_error(RuntimeError, 'Negative numbers not allowed: -1,-3')
+      end
+
+      it 'does raise an exception with negative number and different delimiter' do
+        expect { described_class.add("//;\n1;2;-3") }.to raise_error(RuntimeError, 'Negative numbers not allowed: -3')
+      end
+    end
   end
 end
