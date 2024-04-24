@@ -12,5 +12,21 @@ describe Calculator do
         expect { described_class.add(123) }.to raise_error(ArgumentError, 'Please use only single string')
       end
     end
+
+    context 'when argument is an empty string' do
+      it 'should return 0' do
+        expect(described_class.add('')).to eq 0
+      end
+    end
+
+    context 'when argument contains the valid numbers' do
+      it 'should returns sum of numbers' do
+        expect(described_class.add('1')).to eq 1
+      end
+
+      it 'should perform addition on numbers' do
+        expect(described_class.add('1,2,3')).to eq 6
+      end
+    end
   end
 end
