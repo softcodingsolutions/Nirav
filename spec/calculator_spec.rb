@@ -11,6 +11,14 @@ describe Calculator do
       it 'should raise an error if argument type is different' do
         expect { described_class.add(123) }.to raise_error(ArgumentError, 'Please use only single string')
       end
+
+      it 'raises error when multiple integers passed as argument' do
+        expect { described_class.add(1, 2) }.to raise_error(ArgumentError, /wrong number of arguments/)
+      end
+
+      it 'raises error when multiple string arguments passed' do
+        expect { described_class.add('1', '2') }.to raise_error(ArgumentError, /wrong number of arguments/)
+      end
     end
 
     context 'when argument is an empty string' do
@@ -26,6 +34,28 @@ describe Calculator do
 
       it 'should perform addition on numbers' do
         expect(described_class.add('1,2,3')).to eq 6
+      end
+    end
+
+    context 'when string contains valid new line character' do
+      it 'returns sum of numbers' do
+        expect(described_class.add("1\n2,3")).to eq 6
+      end
+    end
+
+    context 'when string contains invalid new line char' do
+      it "return error when invalid \n passed at end" do
+        expect{ described_class.add("1,\n") }.to raise_error(RuntimeError, 'Invalid input')
+      end
+
+      it "return error when invalid \n passed at beginning" do
+        expect { described_class.add("1,\n, 2") }.to raise_error(RuntimeError, 'Invalid input')
+      end
+    end
+
+    context 'when argument has different delimiter' do
+      it 'should return the sum of numbers' do
+        expect(described_class.add("//;\n1;2")).to eq 3
       end
     end
 
